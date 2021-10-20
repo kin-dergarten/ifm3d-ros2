@@ -240,12 +240,13 @@ namespace ifm3d_ros2
     float timeout_tolerance_secs_;
     float frame_latency_thresh_; // seconds
     bool sync_clocks_;
+    std::uint16_t pcic_port_;
 
     DumpServer dump_srv_;
     ConfigServer config_srv_;
 
-    ifm3d::Camera::Ptr cam_;
-    ifm3d::FrameGrabber::Ptr fg_;
+    ifm3d::CameraBase::Ptr cam_;
+    ifm3d::FrameGrabber::Ptr fg_; 
     ifm3d::ImageBuffer::Ptr im_;
 
     cv::Mat uvec_;
