@@ -26,13 +26,14 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <iostream>
 
 #include <cv_bridge/cv_bridge.h>
 #include <lifecycle_msgs/msg/state.hpp>
 #include <pcl_conversions/pcl_conversions.h>
 #include <rcl_interfaces/msg/set_parameters_result.hpp>
 #include <rclcpp/logging.hpp>
-#include <rclcpp_lifecycle/lifecycle_node.hpp>
+#include <rclcpp_lifecycle/lifecycle_node.hpp>    
 #include <rclcpp/parameter.hpp>
 #include <rmw/rmw.h>
 #include <sensor_msgs/image_encodings.hpp>
@@ -921,4 +922,5 @@ namespace ifm3d_ros2
 } // end: namespace ifm3d_ros2
 
 #include <rclcpp_components/register_node_macro.hpp>
-RCLCPP_COMPONENTS_REGISTER_NODE(ifm3d_ros2::CameraNode)
+
+// RCLCPP_COMPONENTS_REGISTER_NODE(ifm3d_ros2::CameraNode)
