@@ -36,7 +36,7 @@
 #include <sensor_msgs/msg/temperature.hpp>
 
 #include <ifm3d_ros2/visibility_control.h>
-#include <ifm3d/camera.h>
+#include <ifm3d/camera/camera_base.h>
 #include <ifm3d/fg.h>
 #include <ifm3d/image.h>
 #include <ifm3d_ros2/msg/extrinsics.hpp>

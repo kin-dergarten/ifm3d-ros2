@@ -25,7 +25,7 @@ set(IFM3D_ROS2_DEPS
   vision_opencv
   )
 
-find_package(ifm3d 0.12.0 CONFIG REQUIRED COMPONENTS
+find_package(ifm3d 0.91.0 CONFIG REQUIRED COMPONENTS
   camera
   framegrabber
   image
