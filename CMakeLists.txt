@@ -77,6 +77,9 @@ rosidl_target_interfaces(camera_standalone
   ${PROJECT_NAME} "rosidl_typesupport_cpp"
   )
 
+find_package(Boost 1.65.0 REQUIRED COMPONENTS system)
+target_link_libraries(ifm3d_ros2_camera_node ${Boost_LIBRARIES})
+
 ##############
 ## Install  ##
 ##############
