@@ -188,47 +188,6 @@ namespace ifm3d_ros2
                                            this->password_);
 
     //
-    // Sync clocks
-    //
-    // XXX: This "sync" is only to second resolution, so, it is not very
-    // good. Some of the ifm cameras have on-board NTP which is a better option
-    // than using this method.
-    //
-    // NOTE: to remain compatible with the ifm3d ROS 1 node, we will consider
-    // being unable to sync clocks as a non-fatal error. This means that images
-    // will be stamped with *reception time* not *acquisition time* (i.e.,
-    // there will be some latency.
-    //
-    /* 
-    // SetCurrentTime not available for CameraBase class!
-    if (this->sync_clocks_)
-      {
-        RCLCPP_INFO(this->logger_,
-                    "Attempting to sync camera clock to system...");
-        RCLCPP_WARN(
-          this->logger_,
-          "For less latency and better precision, try on-camera NTP sync");
-
-        try
-          {
-            this->cam_->SetCurrentTime(-1);
-            RCLCPP_INFO(this->logger_, "clock sync OK.");
-          }
-        catch (const ifm3d::error_t& ex)
-          {
-            RCLCPP_WARN(this->logger_, "Failed to sync clocks!");
-            RCLCPP_WARN(this->logger_, "%d: %s", ex.code(), ex.what());
-            // throw; // <-- forces a state transition to `ErrorProcessing`
-          }
-      }
-    else
-      {
-        RCLCPP_INFO(this->logger_,
-                    "Camera clock will not be sync'd to system clock.");
-      }
-    */
-
-    //
     // Initialize the framegrabber and image buffer so we can capture the unit
     // vectors from the camera.
     //
