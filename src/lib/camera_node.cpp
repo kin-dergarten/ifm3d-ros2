@@ -109,26 +109,7 @@ namespace ifm3d_ros2
       this->create_publisher<TemperatureMsg>("~/temperature",
                                             ifm3d_ros2::LowLatencyQoS());
 
-    //
-    // Set up our service servers
-    //
-    this->dump_srv_ =
-      this->create_service<DumpService>(
-        "~/Dump",
-        std::bind(&ifm3d_ros2::CameraNode::Dump, this,
-                  std::placeholders::_1,
-                  std::placeholders::_2,
-                  std::placeholders::_3));
-
-    this->config_srv_ =
-      this->create_service<ConfigService>(
-        "~/Config",
-        std::bind(&ifm3d_ros2::CameraNode::Config, this,
-                  std::placeholders::_1,
-                  std::placeholders::_2,
-                  std::placeholders::_3));
-
-    RCLCPP_INFO(this->logger_, "node created, waiting for `configure()`...");
+    RCLCPP_INFO(this->get_logger(), "node created, waiting for `configure()`...");
   }
 
   CameraNode::~CameraNode()
@@ -623,107 +604,6 @@ namespace ifm3d_ros2
             RCLCPP_WARN(this->logger_, "Publishing thread is not joinable!");
           }
       }
-  }
-
-  void CameraNode::Config(
-    const std::shared_ptr<rmw_request_id_t>,
-    const ConfigRequest req, const ConfigResponse resp)
-  {
-    RCLCPP_INFO(this->logger_, "Handling config request...");
-
-    if (this->get_current_state().id() !=
-        lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE)
-      {
-        resp->status = -1;
-        // XXX: may want to change this logic. For now, I do it so I know
-        // the ifm3d data structures are not null pointers
-        RCLCPP_WARN(this->logger_,
-                    "Can only make a service request when node is ACTIVE");
-        return;
-      }
-
-    {
-      std::lock_guard<std::mutex> lock(this->gil_);
-      resp->status = 0;
-      resp->msg = "OK";
-
-      try
-        {
-          this->cam_->FromJSONStr(req->json); //HERE
-        }
-      catch (const ifm3d::error_t& ex)
-        {
-          resp->status = ex.code();
-          resp->msg = ex.what();
-        }
-      catch (const std::exception& std_ex)
-        {
-          resp->status = -1;
-          resp->msg = std_ex.what();
-        }
-      catch (...)
-        {
-          resp->status = -2;
-          resp->msg = "Unknown error in `Config'";
-        }
-
-      if (resp->status != 0)
-        {
-          RCLCPP_WARN(this->logger_, "Config: %d - %s",
-                      resp->status, resp->msg.c_str());
-        }
-    }
-
-    RCLCPP_INFO(this->logger_, "Config request done.");
-  }
-
-  void CameraNode::Dump(
-    const std::shared_ptr<rmw_request_id_t>,
-    const DumpRequest, const DumpResponse resp)
-  {
-    RCLCPP_INFO(this->logger_, "Handling dump request...");
-
-    if (this->get_current_state().id() !=
-        lifecycle_msgs::msg::State::PRIMARY_STATE_ACTIVE)
-      {
-        resp->status = -1;
-        // XXX: may want to change this logic. For now, I do it so I know
-        // the ifm3d data structures are not null pointers
-        RCLCPP_WARN(this->logger_,
-                    "Can only make a service request when node is ACTIVE");
-        return;
-      }
-
-    {
-      std::lock_guard<std::mutex> lock(this->gil_);
-      resp->status = 0;
-
-      try
-        {
-          resp->config = this->cam_->ToJSONStr(); //HERE
-        }
-      catch (const ifm3d::error_t& ex)
-        {
-          resp->status = ex.code();
-          RCLCPP_WARN(this->logger_, ex.what());
-        }
-      catch (const std::exception& std_ex)
-        {
-          resp->status = -1;
-          RCLCPP_WARN(this->logger_, std_ex.what());
-        }
-      catch (...)
-        {
-          resp->status = -2;
-        }
-
-      if (resp->status != 0)
-        {
-          RCLCPP_WARN(this->logger_, "Dump: %d", resp->status);
-        }
-    }
-
-    RCLCPP_INFO(this->logger_, "Dump request done.");
   }
 
   //

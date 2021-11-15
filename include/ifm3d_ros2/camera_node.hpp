@@ -59,15 +59,6 @@ namespace
   using TemperaturePublisher =
     std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<TemperatureMsg>>;
 
-  using DumpRequest = std::shared_ptr<ifm3d_ros2::srv::Dump::Request>;
-  using DumpResponse = std::shared_ptr<ifm3d_ros2::srv::Dump::Response>;
-  using DumpService = ifm3d_ros2::srv::Dump;
-  using DumpServer = rclcpp::Service<ifm3d_ros2::srv::Dump>::SharedPtr;
-
-  using ConfigRequest = std::shared_ptr<ifm3d_ros2::srv::Config::Request>;
-  using ConfigResponse = std::shared_ptr<ifm3d_ros2::srv::Config::Response>;
-  using ConfigService = ifm3d_ros2::srv::Config;
-  using ConfigServer = rclcpp::Service<ifm3d_ros2::srv::Config>::SharedPtr;
 }
 
 namespace ifm3d_ros2
@@ -180,18 +171,6 @@ namespace ifm3d_ros2
 
   protected:
     /**
-     * Implementation of the Dump service.
-     */
-    void Dump(const std::shared_ptr<rmw_request_id_t> request_header,
-              const DumpRequest req, const DumpResponse resp);
-
-    /**
-     * Implementation of the Config service.
-     */
-    void Config(const std::shared_ptr<rmw_request_id_t> request_header,
-                const ConfigRequest req, const ConfigResponse resp);
-
-    /**
      * Callback that gets called when a parameter(s) is attempted to be set
      *
      * Some parameters can be changed on the fly while others, if changed,
@@ -236,9 +215,6 @@ namespace ifm3d_ros2
     float frame_latency_thresh_; // seconds
     bool sync_clocks_;
     std::uint16_t pcic_port_;
-
-    DumpServer dump_srv_;
-    ConfigServer config_srv_;
 
     ifm3d::CameraBase::Ptr cam_;
     ifm3d::FrameGrabber::Ptr fg_; 
