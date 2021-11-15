@@ -104,9 +104,7 @@ namespace ifm3d_ros2
     this->cloud_pub_ =
       this->create_publisher<PCLMsg>("~/cloud",
                                      ifm3d_ros2::LowLatencyQoS());
-    this->extrinsics_pub_ =
-      this->create_publisher<ExtrinsicsMsg>("~/extrinsics",
-                                            ifm3d_ros2::LowLatencyQoS());
+
     this->temperature_pub_ =
       this->create_publisher<TemperatureMsg>("~/temperature",
                                             ifm3d_ros2::LowLatencyQoS());
@@ -334,7 +332,6 @@ namespace ifm3d_ros2
     this->amplitude_pub_->on_activate();
     this->raw_amplitude_pub_->on_activate();
     this->cloud_pub_->on_activate();
-    this->extrinsics_pub_->on_activate();
     this->temperature_pub_->on_activate();
     RCLCPP_INFO(this->logger_, "Publishers activated.");
 
@@ -370,7 +367,6 @@ namespace ifm3d_ros2
     // explicitly deactive the publishers
     RCLCPP_INFO(this->logger_, "Deactivating publishers...");
     this->temperature_pub_->on_deactivate();
-    this->extrinsics_pub_->on_deactivate();
     this->cloud_pub_->on_deactivate();
     this->raw_amplitude_pub_->on_deactivate();
     this->amplitude_pub_->on_deactivate();
@@ -762,7 +758,6 @@ namespace ifm3d_ros2
     cv::Mat distance_img;
     cv::Mat amplitude_img;
     cv::Mat raw_amplitude_img;
-    std::vector<float> extrinsics(6);
     double temperature; // illu. temp.
     //HERE rgb image
     rclcpp::Time last_frame_time = head.stamp;
@@ -825,7 +820,6 @@ namespace ifm3d_ros2
           distance_img = this->im_->DistanceImage();
           amplitude_img = this->im_->AmplitudeImage();
           raw_amplitude_img = this->im_->RawAmplitudeImage();
-          extrinsics = this->im_->Extrinsics();
           temperature = this->im_->IlluTemp();
           //HERE rgb image
 
@@ -892,27 +886,6 @@ namespace ifm3d_ros2
           }
 
         // HERE publish rgb
-
-        //
-        // publish extrinsics
-        //
-        ifm3d_ros2::msg::Extrinsics extrinsics_msg;
-        extrinsics_msg.header = optical_head;
-        try
-          {
-            extrinsics_msg.tx = extrinsics.at(0);
-            extrinsics_msg.ty = extrinsics.at(1);
-            extrinsics_msg.tz = extrinsics.at(2);
-            extrinsics_msg.rot_x = extrinsics.at(3);
-            extrinsics_msg.rot_y = extrinsics.at(4);
-            extrinsics_msg.rot_z = extrinsics.at(5);
-          }
-        catch (const std::out_of_range& ex)
-          {
-            RCLCPP_WARN(this->logger_,
-                        "Out-of-range error fetching extrinsics");
-          }
-        this->extrinsics_pub_->publish(std::move(extrinsics_msg));
 
       } // end: while (rclcpp::ok() && (! this->test_destroy_))
 

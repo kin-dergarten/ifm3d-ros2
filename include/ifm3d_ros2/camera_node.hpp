@@ -39,7 +39,6 @@
 #include <ifm3d/camera/camera_base.h>
 #include <ifm3d/fg.h>
 #include <ifm3d/image.h>
-#include <ifm3d_ros2/msg/extrinsics.hpp>
 #include <ifm3d_ros2/srv/dump.hpp>
 #include <ifm3d_ros2/srv/config.hpp>
 
@@ -55,10 +54,6 @@ namespace
   using PCLMsg = sensor_msgs::msg::PointCloud2;
   using PCLPublisher =
     std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<PCLMsg>>;
-
-  using ExtrinsicsMsg = ifm3d_ros2::msg::Extrinsics;
-  using ExtrinsicsPublisher =
-    std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<ExtrinsicsMsg>>;
 
   using TemperatureMsg = sensor_msgs::msg::Temperature;
   using TemperaturePublisher =
@@ -257,7 +252,6 @@ namespace ifm3d_ros2
     ImagePublisher amplitude_pub_;
     ImagePublisher raw_amplitude_pub_;
     PCLPublisher cloud_pub_;
-    ExtrinsicsPublisher extrinsics_pub_;
     TemperaturePublisher temperature_pub_;
 
     std::thread pub_loop_;
