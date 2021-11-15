@@ -444,7 +444,7 @@ namespace ifm3d_ros2
     pcic_port_descriptor.name = "pcic_port";
     pcic_port_descriptor.type = rcl_interfaces::msg::ParameterType::PARAMETER_INTEGER;
     pcic_port_descriptor.description = " TCP port the on-image processing platform pcic server is listening on. Corresponds to the port the camera head is connected to.";
-    this->declare_parameter("pcic_port", ifm3d::DEFAULT_PCIC_PORT, pcic_port_descriptor);
+//    this->declare_parameter("pcic_port", ifm3d::DEFAULT_PCIC_PORT, pcic_port_descriptor);
 
     rcl_interfaces::msg::ParameterDescriptor ip_descriptor;
     ip_descriptor.name = "ip";
@@ -452,7 +452,7 @@ namespace ifm3d_ros2
     ip_descriptor.description = "IP address of the camera";
     ip_descriptor.additional_constraints =
       "Should be an IPv4 address or resolvable name on your network";
-    this->declare_parameter("ip", ifm3d::DEFAULT_IP, ip_descriptor);
+//    this->declare_parameter("ip", ifm3d::DEFAULT_IP, ip_descriptor);
 
     rcl_interfaces::msg::ParameterDescriptor xmlrpc_port_descriptor;
     xmlrpc_port_descriptor.name = "xmlrpc_port";
@@ -472,16 +472,16 @@ namespace ifm3d_ros2
     // xmlrpc_port_range.to_value = 65535;
     // xmlrpc_port_range.step = 1;
     // xmlrpc_port_descriptor.integer_range = xmlrpc_port_range;
-    this->declare_parameter(
-      "xmlrpc_port", ifm3d::DEFAULT_XMLRPC_PORT, xmlrpc_port_descriptor);
+//    this->declare_parameter(
+//      "xmlrpc_port", ifm3d::DEFAULT_XMLRPC_PORT, xmlrpc_port_descriptor);
 
     rcl_interfaces::msg::ParameterDescriptor password_descriptor;
     password_descriptor.name = "password";
     password_descriptor.type =
       rcl_interfaces::msg::ParameterType::PARAMETER_STRING;
     password_descriptor.description = "Password for camera edit session";
-    this->declare_parameter(
-      "password", ifm3d::DEFAULT_PASSWORD, password_descriptor);
+//    this->declare_parameter(
+//      "password", ifm3d::DEFAULT_PASSWORD, password_descriptor);
 
     rcl_interfaces::msg::ParameterDescriptor schema_mask_descriptor;
     schema_mask_descriptor.name = "schema_mask";
@@ -493,10 +493,10 @@ namespace ifm3d_ros2
     //
     // XXX: add an IntegerRange constraint here
     //
-    this->declare_parameter(
-      "schema_mask",
-      ifm3d::IMG_RDIS|ifm3d::IMG_AMP|ifm3d::IMG_RAMP|ifm3d::IMG_CART,
-      schema_mask_descriptor);
+//    this->declare_parameter(
+//      "schema_mask",
+//      ifm3d::IMG_RDIS|ifm3d::IMG_AMP|ifm3d::IMG_RAMP|ifm3d::IMG_CART,
+//      schema_mask_descriptor);
 
     rcl_interfaces::msg::ParameterDescriptor timeout_millis_descriptor;
     timeout_millis_descriptor.name = "timeout_millis";
