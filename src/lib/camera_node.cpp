@@ -179,6 +179,7 @@ namespace ifm3d_ros2
     //
     std::lock_guard<std::mutex> lock(this->gil_);
 
+    /*
     //
     // Initialize the camera interface
     //
@@ -253,6 +254,7 @@ namespace ifm3d_ros2
     RCLCPP_INFO(this->logger_, "Initializing ImageBuffer..."); 
     this->im_ = std::make_shared<ifm3d::ImageBuffer>();
 
+    */
     RCLCPP_INFO(this->logger_, "Configuration complete.");
     return TC_RETVAL::SUCCESS;
   }
