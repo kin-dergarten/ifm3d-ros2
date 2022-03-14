@@ -178,28 +178,29 @@ def launch_setup(context, *args, **kwargs):
     #
     # Coord frame transform from camera_optical_link to camera_link
     #
-    tf_node = \
-      ExecuteProcess(
-          cmd=['ros2', 'run', 'tf2_ros', 'static_transform_publisher',
-                '0', '0', '0', '0', '0', '0',
-                str(node_name + "_link"), str(node_name + "_optical_link")],
-                # output='screen',
-                log_cmd=True
-          )
-    logging.info("Publishing tf2 transform from {} to {}" .format(str(node_name + "_link"), str(node_name + "_optical_link")))
+    # tf_node = \
+    #   ExecuteProcess(
+    #       cmd=['ros2', 'run', 'tf2_ros', 'static_transform_publisher',
+    #             '0', '0', '0', '0', '0', '0',
+    #             str(node_name + "_link"), str(node_name + "_optical_link")],
+    #             # output='screen',
+    #             log_cmd=True
+    #       )
+
 
     #
     # (Dummy) Coord frame transform from camera_link to map frame
     #
-    tf_map_link_node = \
-        ExecuteProcess(
-            cmd=['ros2', 'run', 'tf2_ros', 'static_transform_publisher',
-                '0', '0', '0', '0', '0', '0',
-                str(node_name + "_optical_link"), "map"],
-                # output='screen',
-                log_cmd=True
-        )
-    logging.info("Publishing tf2 transform from {} to {}" .format(str(node_name + "_optical_link"), "map"))
+    # tf_map_link_node = \
+    #     ExecuteProcess(
+    #         cmd=['ros2', 'run', 'tf2_ros', 'static_transform_publisher',
+    #             '0', '0', '0', '0', '0', '0',
+    #             str(node_name + "_optical_link"), "map"],
+    #             # output='screen',
+    #             log_cmd=True
+    #     )
+
+    #logging.info("Publishing tf2 transform from {} to {}" .format(str(node_name + "_optical_link"), "map"))
 
     return camera_node_unconfigured_to_inactive_handler, \
         camera_node_active_to_inactive_handler, \
@@ -208,8 +209,8 @@ def launch_setup(context, *args, **kwargs):
         camera_node_shuttingdown_to_finalized_handler, \
         camera_node, \
         camera_configure_evt, \
-        tf_node, \
-        tf_map_link_node \
+        # tf_node, \
+        # tf_map_link_node \
 
 
 def generate_launch_description():
