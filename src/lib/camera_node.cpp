@@ -690,7 +690,10 @@ void CameraNode::publish_loop()
           std::chrono::duration_cast<std::chrono::nanoseconds>(this->im_->TimeStamp().time_since_epoch()).count(),
           RCL_SYSTEM_TIME);
 
-      if (std::fabs((frame_time - now).nanoseconds() / 1e9) > this->frame_latency_thresh_)
+      auto is_beyond_latency_threshold = std::fabs((frame_time - now).nanoseconds() / 1e9) > this->frame_latency_thresh_;
+      auto is_ahead_of_current_ros_time = (frame_time - now).nanoseconds() > 0.;
+
+      if (is_beyond_latency_threshold || is_ahead_of_current_ros_time)
       {
         RCLCPP_WARN_ONCE(this->logger_, "Frame latency thresh exceeded, using reception timestamps!");
         head.stamp = now;
